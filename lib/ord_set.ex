@@ -32,6 +32,8 @@ defmodule OrdSet do
   [^™]: You should ofcourse test this yourself
   """
 
+  @compile {:inline, put: 2, delete: 2, member?: 2, equal?: 2, filter: 2, reject: 2}
+
   @type t(term) :: list(term)
   @type t :: list
 
@@ -102,6 +104,7 @@ defmodule OrdSet do
   OrdSet.new([1,2,3,4])
   ```
   """
+  @spec put(t(), term) :: t()
   def put(set, item) do
     :ordsets.add_element(item, set)
   end
@@ -113,10 +116,12 @@ defmodule OrdSet do
   OrdSet.new([1,4,3])
   ```
   """
+  @spec delete(t(), term) :: t()
   def delete(set, item) do
     :ordsets.del_element(item, set)
   end
 
+  @spec size(t()) :: pos_integer()
   defdelegate size(set), to: :ordsets
 
   @doc """
@@ -127,6 +132,7 @@ defmodule OrdSet do
   [3, 4]
   ```
   """
+  @spec intersection(t(), t()) :: t()
   defdelegate intersection(set_a, set_b), to: :ordsets
 
   @doc """
@@ -137,6 +143,7 @@ defmodule OrdSet do
   [1, 2]
   ```
   """
+  @spec difference(t(), t()) :: t()
   defdelegate difference(set_a, set_b), to: :ordsets, as: :subtract
 
   @doc """
@@ -149,6 +156,7 @@ defmodule OrdSet do
   [1,2,3,5,6]
   ```
   """
+  @spec union(t(), t()) :: t()
   defdelegate union(set_a, set_b), to: :ordsets
 
   @doc """
@@ -159,6 +167,7 @@ defmodule OrdSet do
   iex> 1..3 |> OrdSet.new() |> OrdSet.member?(8)
   false
   """
+  @spec member?(t(), term) :: boolean
   def member?(set, item) do
     :ordsets.is_element(item, set)
   end
@@ -171,6 +180,7 @@ defmodule OrdSet do
   iex> OrdSet.equal?(OrdSet.new([1,2,3]), OrdSet.new([3,2,1]))
   true
   """
+  @spec member?(t(), t()) :: boolean
   def equal?(set_a, set_b) do
     set_a == set_b
   end
@@ -185,6 +195,7 @@ defmodule OrdSet do
   false
   ```
   """
+  @spec disjoint?(t(), t()) :: boolean
   defdelegate disjoint?(set_a, set_b), to: :ordsets, as: :is_disjoint
 
   @doc """
@@ -201,6 +212,7 @@ defmodule OrdSet do
   false
   ```
   """
+  @spec subset?(t(), t()) :: boolean
   defdelegate subset?(set_a, set_b), to: :ordsets, as: :is_subset
 
   @doc """
@@ -208,6 +220,7 @@ defmodule OrdSet do
 
   Ps: I don't think this does anything because a `OrdSet` is already a list
   """
+  @spec to_list(t()) :: list
   defdelegate to_list(set), to: :ordsets
 
   @doc """
@@ -218,6 +231,7 @@ defmodule OrdSet do
   MapSet.new([4, 5])
   ```
   """
+  @spec filter(t(), (term -> as_boolean(term))) :: t()
   def filter(set, func) do
     :ordsets.filter(func, set)
   end
@@ -230,6 +244,7 @@ defmodule OrdSet do
   OrdSet.new([2, 4])
   ```
   """
+  @spec reject(t(), (term -> as_boolean(term))) :: t()
   def reject(set, func) do
     :ordsets.filter(&(!func.(&1)), set)
   end
@@ -242,6 +257,7 @@ defmodule OrdSet do
   5
   ```
   """
+  @spec max(t()) :: term
   defdelegate max(set), to: List, as: :last
 
   @doc """
@@ -252,5 +268,6 @@ defmodule OrdSet do
   0
   ```
   """
+  @spec min(t()) :: term
   defdelegate min(set), to: List, as: :first
 end

@@ -3,7 +3,7 @@ defmodule OrdSet.MixProject do
 
   def project do
     [
-      app: :ordsets_elixir,
+      app: :ord_set,
       version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
