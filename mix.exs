@@ -12,7 +12,9 @@ defmodule OrdSet.MixProject do
         # The main page in the docs
         main: "OrdSet",
         markdown_processor: {ExDoc.Markdown.Earmark, footnotes: true}
-      ]
+      ],
+      description: "Elixir wrapper around :ordsets",
+      package: package()
     ]
   end
 
@@ -20,6 +22,13 @@ defmodule OrdSet.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/thomas9911/ordset"}
     ]
   end
 
