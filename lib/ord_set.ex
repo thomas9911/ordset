@@ -227,8 +227,8 @@ defmodule OrdSet do
   Filters the set by returning only the elements from `set` for which invoking `fun` returns a truthy value.
 
   ```elixir
-  iex> MapSet.filter(MapSet.new(1..5), fn x -> x > 3 end)
-  MapSet.new([4, 5])
+  iex> OrdSet.filter(OrdSet.new(1..5), fn x -> x > 3 end)
+  OrdSet.new([4, 5])
   ```
   """
   @spec filter(t(), (term -> as_boolean(term))) :: t()
